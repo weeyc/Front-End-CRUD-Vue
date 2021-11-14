@@ -2164,22 +2164,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CompactTableWithActionsAndSelect",
   data: function data() {
     return {
       temp: 0,
       counter: -2000,
-      users: []
+      users: [],
+      filterName: '',
+      filterGender: '',
+      filterStatus: ''
     };
+  },
+  computed: {
+    filterUser: function filterUser() {
+      var _this = this;
+
+      return this.users.filter(function (user) {
+        //return user.gender.match(this.filterGender);
+        if (_this.filterGender == "" && _this.filterStatus == "") {
+          return user;
+        } else if (user.gender == _this.filterGender && user.status == _this.filterStatus) {
+          //    this.filterGender="";
+          //  this.filterStatus="";
+          return true;
+        } else if (user.gender == _this.filterGender && _this.filterStatus == "") {
+          return user;
+        } else if (_this.filterGender == "" && user.status == _this.filterStatus) return user;else return '';
+      });
+    }
   },
   methods: {
     getData: function getData() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('https://gorest.co.in/public/v1/users').then(function (response) {
-        _this.users = response.data.data;
-        console.warn(_this.users.data);
+        _this2.users = response.data.data;
+        console.warn(_this2.users.data);
       });
     },
     incrementCounter: function incrementCounter(yes) {
@@ -2210,27 +2243,6 @@ __webpack_require__.r(__webpack_exports__);
         for (i = 0; i < dropdowns.length; i++) {
           var openDropdown = dropdowns[i];
           openDropdown.classList.add("hidden");
-        }
-      }
-    },
-    checkAll: function checkAll(event) {
-      var rows = event.currentTarget.parentElement.parentElement.parentElement.nextElementSibling.children;
-
-      for (var i = 0; i < rows.length; i++) {
-        if (event.currentTarget.checked) {
-          rows[i].classList.add("bg-gray-100");
-          var checkbox = rows[i].getElementsByTagName("input")[0];
-
-          if (checkbox) {
-            checkbox.checked = true;
-          }
-        } else {
-          rows[i].classList.remove("bg-gray-100");
-          var _checkbox = rows[i].getElementsByTagName("input")[0];
-
-          if (_checkbox) {
-            _checkbox.checked = false;
-          }
         }
       }
     },
@@ -20255,6 +20267,38 @@ var render = function() {
               "div",
               {
                 staticClass:
+                  "w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center"
+              },
+              [
+                _c("div", { staticClass: "flex items-center" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filterName,
+                        expression: "filterName"
+                      }
+                    ],
+                    attrs: { type: "text", placeholder: "Search Name" },
+                    domProps: { value: _vm.filterName },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.filterName = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
                   "w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end"
               },
               [
@@ -20398,61 +20442,135 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(1)
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.filterGender,
+                              expression: "filterGender"
+                            }
+                          ],
+                          staticClass:
+                            "focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.filterGender = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Gender")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "male" } }, [
+                            _vm._v("Male")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "female" } }, [
+                            _vm._v("Female")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticClass:
+                                "icon cursor-pointer icon-tabler icon-tabler-chevron-down",
+                              attrs: {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                width: "20",
+                                height: "20",
+                                viewBox: "0 0 24 24",
+                                "stroke-width": "1.5",
+                                stroke: "currentColor",
+                                fill: "none",
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: { stroke: "none", d: "M0 0h24v24H0z" }
+                              }),
+                              _vm._v(" "),
+                              _c("polyline", {
+                                attrs: { points: "6 9 12 15 18 9" }
+                              })
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.filterStatus,
+                              expression: "filterStatus"
+                            }
+                          ],
+                          staticClass:
+                            "focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.filterStatus = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Status")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "active" } }, [
+                            _vm._v("Active")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "inactive" } }, [
+                            _vm._v("Inactive")
+                          ])
+                        ]
+                      )
                     ])
                   ]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "lg:ml-6 flex items-center" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm"
-                    },
-                    [_vm._v("Download All")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center"
-                    },
-                    [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "icon icon-tabler icon-tabler-plus",
-                          attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "28",
-                            height: "28",
-                            viewBox: "0 0 24 24",
-                            "stroke-width": "1.5",
-                            stroke: "currentColor",
-                            fill: "none",
-                            "stroke-linecap": "round",
-                            "stroke-linejoin": "round"
-                          }
-                        },
-                        [
-                          _c("path", {
-                            attrs: { stroke: "none", d: "M0 0h24v24H0z" }
-                          }),
-                          _vm._v(" "),
-                          _c("line", {
-                            attrs: { x1: "12", y1: "5", x2: "12", y2: "19" }
-                          }),
-                          _vm._v(" "),
-                          _c("line", {
-                            attrs: { x1: "5", y1: "12", x2: "19", y2: "12" }
-                          })
-                        ]
-                      )
-                    ]
-                  )
-                ])
+                _vm._m(1)
               ]
             )
           ]
@@ -20471,7 +20589,7 @@ var render = function() {
                 _c(
                   "tbody",
                   { staticClass: "text-gray-600 text-sm font-light" },
-                  _vm._l(_vm.users, function(user) {
+                  _vm._l(_vm.filterUser, function(user) {
                     return _c(
                       "tr",
                       {
@@ -20667,26 +20785,27 @@ var staticRenderFns = [
         staticClass:
           "w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center"
       },
-      [_c("div", { staticClass: "flex items-center" })]
+      [
+        _c("div", { staticClass: "flex items-center" }, [
+          _c("span", [_vm._v("MANAGE USERS")])
+        ])
+      ]
     )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "select",
-      {
-        staticClass:
-          "focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent",
-        attrs: { "aria-label": "Selected tab" }
-      },
-      [
-        _c("option", [_vm._v("List View")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("Grid View")])
-      ]
-    )
+    return _c("div", { staticClass: "lg:ml-6 flex items-center" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm"
+        },
+        [_vm._v("Create User")]
+      )
+    ])
   },
   function() {
     var _vm = this
