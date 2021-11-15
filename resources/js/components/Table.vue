@@ -10,41 +10,52 @@
                 </div>
                   <div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
                     <div class="flex items-center">
-                        <input type="text" v-model="filterName" placeholder="Search Name"/>
+                          <p class="text-base text-dark-600 dark:text-gray-400" id="page-view">  Showing Page {{ page }} of {{ meta.pagination.pages }}</p>
                     </div>
                 </div>
                 <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
-                    <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
-                        <p class="text-base text-dark-600 dark:text-gray-400" id="page-view">showing page 1 of 60</p>
-                        <a class="text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded" onclick="pageView(false)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />
-                                <polyline points="15 6 9 12 15 18" />
+
+                <div class="flex flex-col items-center my-12">
+                    <div class="flex text-gray-700">
+                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
+                            <button  @click="previousPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
+                                <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
-                        </a>
-                        <a class="text-gray-600 dark:text-gray-400 border-transparent border rounded focus:outline-none cursor-pointer" onclick="pageView(true)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" />
-                                <polyline points="9 6 15 12 9 18" />
+                             </button>
+                        </div>
+
+                        <div class="flex h-8 font-medium rounded-full bg-gray-200">
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  " @click="firstPg()">1</button>
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled ">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white " @click="currentPg()">{{ page }}</button>
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">Last</button>
+                            <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white"></button>
+                        </div>
+                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
+                              <button  @click="nextPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
+                                <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
-                        </a>
+                            </button>
+                        </div>
                     </div>
+                </div>
+
                     <div class="flex items-center lg:border-r border-gray-300 pb-3 lg:pb-0 lg:px-6">
                         <div class="relative w-32 z-10">
-                            <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none mt-5 text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-
                             <select  v-model="filterGender" class="focus:outline-none border  border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
 
                             </select>
-                            <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none text-gray-600 dark:text-gray-400  absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
@@ -56,7 +67,9 @@
                                 <option value="inactive">Inactive</option>
                             </select>
                         </div>
+
                     </div>
+
 
                     <div class="lg:ml-6 flex  items-center">
                         <button @click="createUser; toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-gray-300 rounded
@@ -80,8 +93,8 @@
                             </tr>
                         </thead>
                         <tbody class="text-dark-600 text-sm font-light">
-                            <tr  v-for= "user in filterUser" :key="user.id"   class="border-b border-gray-200 hover:bg-gray-100" >
-                                 <td class="py-3 px-3 text-left whitespace-nowrap">  {{ increment }}</td >
+                            <tr  v-for= "(user, index) in filterUser" :key="user.id"   class="border-b border-gray-200 hover:bg-gray-100" >
+                                 <td class="py-3 px-3 text-left whitespace-nowrap">  {{ index + 1 }}</td >
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
                                         <span class="font-medium">{{ user.id }}</span>
@@ -317,6 +330,7 @@
 
             </div>
         </div>
+
     </div>
 
 
@@ -340,6 +354,7 @@ class Errors{
 
 export default {
     name: "CRUD_TABLE",
+
     data() {
         return {
             temp: 0,
@@ -378,16 +393,14 @@ export default {
                 status:'',
             },
 
-               errors: new Errors()
+               errors: new Errors(),
 
+               meta: '',
+               page: 1,
+               lastPage: ''
 
+          //  perPage: this.perPageOptions[0],
 
-
-
-            // page: 1,
-            // perPageOptions: [20, 50, 100],
-            // perPage: this.perPageOptions[0],
-            // totalRecords: users.length,
 
 
         };
@@ -410,20 +423,49 @@ export default {
         increment: function() {
               return this.incrementCounter(this.counter);
         },
-        pages(){
-
-        }
     },
     methods: {
         getData(){
-            axios.get('https://gorest.co.in/public/v1/users').then((response)=>{
+            axios.get('https://gorest.co.in/public/v1/users?page='+this.page).then((response)=>{
                 this.users=response.data.data;
                 console.warn( this.users.data);
+
                 })
             },
 
-        incrementCounter(counter) {
-            return this.counter = counter + 1;
+        getMeta(){
+            axios.get('https://gorest.co.in/public/v1/users').then((response)=>{
+                this.meta=response.data.meta;
+                this.lastPage=response.data.meta.pagination.pages
+                console.warn( this.meta.data);
+                })
+            },
+        previousPg(pg){
+                if(pg<=1){
+                     this.page=1;
+                }
+                else
+                    this.page=this.page -1;
+                 this.getData();
+            },
+        firstPg(){
+                this.page=1;
+                this.getData();
+            },
+        currentPg(){
+                this.page=this.page;
+                this.getData();
+            },
+        lastPg(){
+                this.page=this.lastPage;
+                this.getData();
+            },
+        nextPg(pg){
+               if(pg>=this.lastPage)
+                    this.page=this.lastPage;
+                else
+                     this.page=this.page + 1;
+                 this.getData();
             },
         readUser(user){
             this.modalTitle = "View User Details";
@@ -468,7 +510,7 @@ export default {
             const config = {
             headers: { Authorization: 'Bearer '+ this.apiToken}
             };
-            axios.put('https://gorest.co.in/public/v1/users/'+ this.formEdit.id,
+            axios.patch('https://gorest.co.in/public/v1/users/'+ this.formEdit.id,
                 this.formEdit,
                 config
                 ).then(() =>{
@@ -498,6 +540,10 @@ export default {
 
      mounted: function(){
             this.getData();
+            this.getMeta();
+        //    this.pages();
+            // this.changePage();
+
     },
 
 

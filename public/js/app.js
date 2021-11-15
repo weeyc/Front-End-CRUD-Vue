@@ -2374,6 +2374,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -2433,10 +2447,10 @@ var Errors = /*#__PURE__*/function () {
         gender: '',
         status: ''
       },
-      errors: new Errors() // page: 1,
-      // perPageOptions: [20, 50, 100],
-      // perPage: this.perPageOptions[0],
-      // totalRecords: users.length,
+      errors: new Errors(),
+      meta: '',
+      page: 1,
+      lastPage: '' //  perPage: this.perPageOptions[0],
 
     };
   },
@@ -2457,20 +2471,48 @@ var Errors = /*#__PURE__*/function () {
     },
     increment: function increment() {
       return this.incrementCounter(this.counter);
-    },
-    pages: function pages() {}
+    }
   },
   methods: {
     getData: function getData() {
       var _this2 = this;
 
-      axios.get('https://gorest.co.in/public/v1/users').then(function (response) {
+      axios.get('https://gorest.co.in/public/v1/users?page=' + this.page).then(function (response) {
         _this2.users = response.data.data;
         console.warn(_this2.users.data);
       });
     },
-    incrementCounter: function incrementCounter(counter) {
-      return this.counter = counter + 1;
+    getMeta: function getMeta() {
+      var _this3 = this;
+
+      axios.get('https://gorest.co.in/public/v1/users').then(function (response) {
+        _this3.meta = response.data.meta;
+        _this3.lastPage = response.data.meta.pagination.pages;
+        console.warn(_this3.meta.data);
+      });
+    },
+    previousPg: function previousPg(pg) {
+      if (pg <= 1) {
+        this.page = 1;
+      } else this.page = this.page - 1;
+
+      this.getData();
+    },
+    firstPg: function firstPg() {
+      this.page = 1;
+      this.getData();
+    },
+    currentPg: function currentPg() {
+      this.page = this.page;
+      this.getData();
+    },
+    lastPg: function lastPg() {
+      this.page = this.lastPage;
+      this.getData();
+    },
+    nextPg: function nextPg(pg) {
+      if (pg >= this.lastPage) this.page = this.lastPage;else this.page = this.page + 1;
+      this.getData();
     },
     readUser: function readUser(user) {
       this.modalTitle = "View User Details";
@@ -2481,7 +2523,7 @@ var Errors = /*#__PURE__*/function () {
       this.userStatus = user.status;
     },
     createUser: function createUser() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.modalTitle = "Create New User";
       this.userID = 0;
@@ -2492,18 +2534,18 @@ var Errors = /*#__PURE__*/function () {
       };
       axios.post('https://gorest.co.in/public/v1/users', this.form, config).then(function () {
         console.log('saved');
-        _this3.toggleModalCreate = false;
+        _this4.toggleModalCreate = false;
 
-        _this3.getData();
+        _this4.getData();
 
         alert("Insert Successful");
-        _this3.form.name = '';
-        _this3.form.email = '';
-        _this3.form.gender = '';
-        _this3.form.status = '';
-        _this3.form.gender = '';
+        _this4.form.name = '';
+        _this4.form.email = '';
+        _this4.form.gender = '';
+        _this4.form.status = '';
+        _this4.form.gender = '';
       })["catch"](function (error) {
-        return _this3.errors.record(error.response.data.data);
+        return _this4.errors.record(error.response.data.data);
       });
     },
     clickEdit: function clickEdit(user) {
@@ -2515,26 +2557,26 @@ var Errors = /*#__PURE__*/function () {
       this.formEdit.status = user.status;
     },
     editUser: function editUser() {
-      var _this4 = this;
+      var _this5 = this;
 
       var config = {
         headers: {
           Authorization: 'Bearer ' + this.apiToken
         }
       };
-      axios.put('https://gorest.co.in/public/v1/users/' + this.formEdit.id, this.formEdit, config).then(function () {
+      axios.patch('https://gorest.co.in/public/v1/users/' + this.formEdit.id, this.formEdit, config).then(function () {
         console.log('update');
-        _this4.toggleModalEdit = false;
+        _this5.toggleModalEdit = false;
 
-        _this4.getData();
+        _this5.getData();
 
         alert("Update Successful");
       })["catch"](function (error) {
-        return _this4.errors.record(error.response.data.data);
+        return _this5.errors.record(error.response.data.data);
       });
     },
     deleteUser: function deleteUser(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       var config = {
         headers: {
@@ -2549,16 +2591,18 @@ var Errors = /*#__PURE__*/function () {
       axios["delete"]('https://gorest.co.in/public/v1/users/' + id, config).then(function () {
         console.log('deleted');
 
-        _this5.getData();
+        _this6.getData();
 
         alert("Delete Successful");
       })["catch"](function (error) {
-        return _this5.errors.record(error.response.data.data);
+        return _this6.errors.record(error.response.data.data);
       });
     }
   },
   mounted: function mounted() {
     this.getData();
+    this.getMeta(); //    this.pages();
+    // this.changePage();
   }
 });
 
@@ -20545,26 +20589,21 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "flex items-center" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.filterName,
-                        expression: "filterName"
-                      }
-                    ],
-                    attrs: { type: "text", placeholder: "Search Name" },
-                    domProps: { value: _vm.filterName },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.filterName = $event.target.value
-                      }
-                    }
-                  })
+                  _c(
+                    "p",
+                    {
+                      staticClass: "text-base text-dark-600 dark:text-gray-400",
+                      attrs: { id: "page-view" }
+                    },
+                    [
+                      _vm._v(
+                        "  Showing Page " +
+                          _vm._s(_vm.page) +
+                          " of " +
+                          _vm._s(_vm.meta.pagination.pages)
+                      )
+                    ]
+                  )
                 ])
               ]
             ),
@@ -20576,100 +20615,173 @@ var render = function() {
                   "w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end"
               },
               [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6"
-                  },
-                  [
+                _c("div", { staticClass: "flex flex-col items-center my-12" }, [
+                  _c("div", { staticClass: "flex text-gray-700" }, [
                     _c(
-                      "p",
+                      "div",
                       {
                         staticClass:
-                          "text-base text-dark-600 dark:text-gray-400",
-                        attrs: { id: "page-view" }
-                      },
-                      [_vm._v("showing page 1 of 60")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded",
-                        attrs: { onclick: "pageView(false)" }
+                          "h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer"
                       },
                       [
                         _c(
-                          "svg",
+                          "button",
                           {
-                            staticClass:
-                              "icon icon-tabler icon-tabler-chevron-left",
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              width: "20",
-                              height: "20",
-                              viewBox: "0 0 24 24",
-                              "stroke-width": "1.5",
-                              stroke: "currentColor",
-                              fill: "none",
-                              "stroke-linecap": "round",
-                              "stroke-linejoin": "round"
+                            on: {
+                              click: function($event) {
+                                return _vm.previousPg(_vm.page)
+                              }
                             }
                           },
                           [
-                            _c("path", {
-                              attrs: { stroke: "none", d: "M0 0h24v24H0z" }
-                            }),
-                            _vm._v(" "),
-                            _c("polyline", {
-                              attrs: { points: "15 6 9 12 15 18" }
-                            })
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "feather feather-chevron-left w-4 h-4",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "100%",
+                                  height: "100%",
+                                  fill: "none",
+                                  viewBox: "0 0 24 24",
+                                  stroke: "currentColor",
+                                  "stroke-width": "2",
+                                  "stroke-linecap": "round",
+                                  "stroke-linejoin": "round"
+                                }
+                              },
+                              [
+                                _c("polyline", {
+                                  attrs: { points: "15 18 9 12 15 6" }
+                                })
+                              ]
+                            )
                           ]
                         )
                       ]
                     ),
                     _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
                         staticClass:
-                          "text-gray-600 dark:text-gray-400 border-transparent border rounded focus:outline-none cursor-pointer",
-                        attrs: { onclick: "pageView(true)" }
+                          "flex h-8 font-medium rounded-full bg-gray-200"
                       },
                       [
                         _c(
-                          "svg",
+                          "button",
                           {
                             staticClass:
-                              "icon icon-tabler icon-tabler-chevron-right",
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              width: "20",
-                              height: "20",
-                              viewBox: "0 0 24 24",
-                              "stroke-width": "1.5",
-                              stroke: "currentColor",
-                              fill: "none",
-                              "stroke-linecap": "round",
-                              "stroke-linejoin": "round"
+                              "w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  ",
+                            on: {
+                              click: function($event) {
+                                return _vm.firstPg()
+                              }
+                            }
+                          },
+                          [_vm._v("1")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled "
+                          },
+                          [_vm._v("...")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white ",
+                            on: {
+                              click: function($event) {
+                                return _vm.currentPg()
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.page))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled"
+                          },
+                          [_vm._v("...")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full",
+                            on: {
+                              click: function($event) {
+                                return _vm.lastPg()
+                              }
+                            }
+                          },
+                          [_vm._v("Last")]
+                        ),
+                        _vm._v(" "),
+                        _c("button", {
+                          staticClass:
+                            "w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white"
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer"
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.nextPg(_vm.page)
+                              }
                             }
                           },
                           [
-                            _c("path", {
-                              attrs: { stroke: "none", d: "M0 0h24v24H0z" }
-                            }),
-                            _vm._v(" "),
-                            _c("polyline", {
-                              attrs: { points: "9 6 15 12 9 18" }
-                            })
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "feather feather-chevron-right w-4 h-4",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "100%",
+                                  height: "100%",
+                                  fill: "none",
+                                  viewBox: "0 0 24 24",
+                                  stroke: "currentColor",
+                                  "stroke-width": "2",
+                                  "stroke-linecap": "round",
+                                  "stroke-linejoin": "round"
+                                }
+                              },
+                              [
+                                _c("polyline", {
+                                  attrs: { points: "9 18 15 12 9 6" }
+                                })
+                              ]
+                            )
                           ]
                         )
                       ]
                     )
-                  ]
-                ),
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -20683,7 +20795,7 @@ var render = function() {
                         "div",
                         {
                           staticClass:
-                            "pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
+                            "pointer-events-none mt-5 text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
                         },
                         [
                           _c(
@@ -20764,7 +20876,7 @@ var render = function() {
                         "div",
                         {
                           staticClass:
-                            "pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
+                            "pointer-events-none text-gray-600 dark:text-gray-400  absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
                         },
                         [
                           _c(
@@ -20879,7 +20991,7 @@ var render = function() {
                 _c(
                   "tbody",
                   { staticClass: "text-dark-600 text-sm font-light" },
-                  _vm._l(_vm.filterUser, function(user) {
+                  _vm._l(_vm.filterUser, function(user, index) {
                     return _c(
                       "tr",
                       {
@@ -20893,7 +21005,7 @@ var render = function() {
                           {
                             staticClass: "py-3 px-3 text-left whitespace-nowrap"
                           },
-                          [_vm._v("  " + _vm._s(_vm.increment))]
+                          [_vm._v("  " + _vm._s(index + 1))]
                         ),
                         _vm._v(" "),
                         _c(
