@@ -212,17 +212,20 @@
       <!-- modal header -->
       <div class="border-b px-4 py-2 flex justify-between items-center">
         <h3 class="font-semibold text-lg">{{ modalTitle }}</h3>
-        <button class="text-black " @click="toggleModalCreate=false">&cross;</button>
+        <button class="text-black " @click="closeModal">&cross;</button>
       </div>
       <!-- modal body -->
       <div class="p-3">
-           <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
+          <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
+                              <span class="flex text-red-500">    {{error.field}} {{ error.message }}</span>
+                        </div>
+           <table   class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
                     <tr  class="border-b border-gray-200 hover:bg-gray-100" >
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
                              <input type="text" name="name" class="font-medium px-5" v-model="form.name"/>
-                              <span class="flex text-red-500">{{ errors.get('name')}}</span>
+
                         </div>
                     </td>
                 </tr>
@@ -231,7 +234,7 @@
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
                             <input type="email" name="email" class="font-medium" v-model="form.email"/>
-                             <span class="flex text-red-500">{{ errors.get('email')}}</span>
+
                         </div>
                     </td>
                 </tr>
@@ -330,7 +333,7 @@
 
             </div>
         </div>
-
+<!-- {{ errors.errors[1] }} -->
     </div>
 
 
@@ -338,19 +341,19 @@
 
 <script>
 
-class Errors{
-    constructor(){
-        this.errors = {};
-    }
-    get(field){
-        if(this.errors[field]){
-            return this.errors[field][0];
-        }
-    }
-    record(errors){
-        this.errors = errors.errors;
-    }
-}
+// class Errors{
+//     constructor(){
+//         this.errors = {};
+//     }
+//     get(field){
+//         if(this.errors.errors[field]){
+//             return this.errors.errors[field];
+//         }
+//     }
+//     record(errors){
+//         this.errors = errors;
+//     }
+// }
 
 export default {
     name: "CRUD_TABLE",
@@ -361,6 +364,7 @@ export default {
             counter: 0,
             incrementor: 0,
             users:[],
+            errors: [],
             apiToken: 'a2facd550b2decbff7ce3246c6277022e344d398d7229f378119ddf4a47b424d',
 
             filterName: '',
@@ -393,7 +397,8 @@ export default {
                 status:'',
             },
 
-               errors: new Errors(),
+              // errors: new Errors(),
+
 
                meta: '',
                page: 1,
@@ -435,9 +440,8 @@ export default {
 
         getMeta(){
             axios.get('https://gorest.co.in/public/v1/users').then((response)=>{
-                this.meta=response.data.meta;
-                this.lastPage=response.data.meta.pagination.pages
-                console.warn( this.meta.data);
+                    this.meta=response.data.meta;
+                    this.lastPage=response.data.meta.pagination.pages
                 })
             },
         previousPg(pg){
@@ -475,7 +479,7 @@ export default {
             this.userGender = user.gender;
             this.userStatus = user.status;
         },
-         createUser(){
+        createUser(){
             this.modalTitle = "Create New User";
             this.userID = 0;
 
@@ -496,7 +500,34 @@ export default {
                     this.form.gender='';
                     this.form.status='';
                     this.form.gender='';
-            }).catch(error =>this.errors.record(error.response.data.data));
+            })  .catch(error => {
+                    if (error.response) {
+                    console.log(error.response.data.data);
+                    //this.errors.record(error.response.data.data)
+                    this.errors=error.response.data.data;
+                    }});
+
+            //.catch(error => this.errors.record(error.response.data.data));
+//             .catch(function (error) {
+//                 if (error.response) {
+//                 // The request was made and the server responded with a status code
+//                 // that falls out of the range of 2xx
+//                 console.log(error.response.data.data);
+//                 this.errors.record(error.response.data.data)
+//     }
+//   });
+
+            // .catch(error => this.errors.record(error.response.data));
+
+            //
+            // .catch(error => {
+            //         if (error.response) {
+            //         console.log(error.response);
+            //         });
+
+
+
+//   });
         },
         clickEdit(user){
             this.modalTitle = "Edit User";
@@ -534,6 +565,10 @@ export default {
                     alert("Delete Successful");
             }).catch(error =>this.errors.record(error.response.data.data));
         },
+        closeModal(){
+            this.errors= [];
+            this.toggleModalCreate = ! this.toggleModalCreate;
+        }
 
 
     },
