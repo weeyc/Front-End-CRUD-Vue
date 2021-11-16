@@ -10,7 +10,7 @@
                 </div>
                   <div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
                     <div class="flex items-center">
-                          <p class="text-base text-dark-600 dark:text-gray-400" id="page-view">  Showing Page {{ page }} of {{ meta.pagination.pages }}</p>
+                          <p class="text-base text-dark-600 dark:text-gray-400" >  Showing Page {{ page }} of {{ meta.pagination.pages }}</p>
                     </div>
                 </div>
                 <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
@@ -29,7 +29,7 @@
                             <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled ">...</button>
                             <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white " @click="currentPg()">{{ page }}</button>
                             <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled">...</button>
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">Last</button>
+                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">{{ meta.pagination.pages }}</button>
                             <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white"></button>
                         </div>
                         <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
@@ -150,7 +150,7 @@
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
       <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">{{ modalTitle }}</h3>
+        <h3 class="font-semibold text-lg">View User Details</h3>
         <button class="text-black " @click="toggleModal=false">&cross;</button>
       </div>
       <!-- modal body -->
@@ -160,7 +160,7 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal ">ID: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                            <input type="text" class="font-medium" v-model="userID"/>
+                            <input type="text" class="font-medium" v-model="userID" readonly/>
                         </div>
                     </td>
                 </tr>
@@ -168,7 +168,7 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                             <input type="text" class="font-medium" v-model="userName"/>
+                             <input type="text" class="font-medium" v-model="userName" readonly/>
                         </div>
                     </td>
                 </tr>
@@ -176,7 +176,7 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Email: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                            <input type="email" class="font-medium" v-model="userEmail"/>
+                            <input type="email" class="font-medium" v-model="userEmail" readonly/>
                         </div>
                     </td>
                 </tr>
@@ -184,7 +184,7 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Gender: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                            <input type="text" class="font-medium" v-model="userGender"/>
+                            <input type="text" class="font-medium" v-model="userGender" readonly/>
                         </div>
                     </td>
                 </tr>
@@ -192,15 +192,15 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Status: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                             <input type="text" class="font-medium"  v-model="userStatus"/>
+                             <input type="text" class="font-medium"  v-model="userStatus" readonly/>
                         </div>
                     </td>
                 </tr>
             </table>
       </div>
       <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="toggleModal=false" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
-        <button  class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white">Oke</button>
+        <button @click="toggleModal=false" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white mr-1 close-modal">Okay</button>
+
       </div>
     </div>
 </div>
@@ -211,15 +211,15 @@
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
       <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">{{ modalTitle }}</h3>
-        <button class="text-black " @click="closeModal">&cross;</button>
+        <h3 class="font-semibold text-lg">Create New User</h3>
+        <button class="text-black " @click="closeCreateModal">&cross;</button>
       </div>
       <!-- modal body -->
       <div class="p-3">
-          <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
-                              <span class="flex text-red-500">    {{error.field}} {{ error.message }}</span>
-                        </div>
-           <table   class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
+            <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
+                <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
+            </div>
+           <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
                     <tr  class="border-b border-gray-200 hover:bg-gray-100" >
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
@@ -263,7 +263,7 @@
             </table>
       </div>
       <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="toggleModalCreate=false" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
+        <button @click="closeCreateModal" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
         <button @click.prevent="createUser" type="submit" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white">Create</button>
       </div>
     </div>
@@ -274,19 +274,22 @@
     <!-- modal -->
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
+
       <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">{{ modalTitle }}</h3>
-        <button class="text-black " @click="toggleModalEdit=false">&cross;</button>
+        <h3 class="font-semibold text-lg">Edit User Details</h3>
+        <button class="text-black " @click="closeEditModal">&cross;</button>
       </div>
       <!-- modal body -->
       <div class="p-3">
+          <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
+                <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
+            </div>
            <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
                     <tr  class="border-b border-gray-200 hover:bg-gray-100" >
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
                              <input type="text" name="name" class="font-medium px-5" v-model="formEdit.name"/>
-                              <span class="flex text-red-500">{{ errors.get('name')}}</span>
                         </div>
                     </td>
                 </tr>
@@ -295,7 +298,6 @@
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
                             <input type="email" name="email" class="font-medium" v-model="formEdit.email"/>
-                             <span class="flex text-red-500">{{ errors.get('email')}}</span>
                         </div>
                     </td>
                 </tr>
@@ -324,7 +326,7 @@
             </table>
       </div>
       <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="toggleModalEdit=false" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
+        <button @click="closeEditModal" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
         <button @click.prevent="editUser" type="submit" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-white">Update</button>
       </div>
     </div>
@@ -333,7 +335,7 @@
 
             </div>
         </div>
-<!-- {{ errors.errors[1] }} -->
+
     </div>
 
 
@@ -341,41 +343,29 @@
 
 <script>
 
-// class Errors{
-//     constructor(){
-//         this.errors = {};
-//     }
-//     get(field){
-//         if(this.errors.errors[field]){
-//             return this.errors.errors[field];
-//         }
-//     }
-//     record(errors){
-//         this.errors = errors;
-//     }
-// }
 
 export default {
     name: "CRUD_TABLE",
 
     data() {
         return {
-            temp: 0,
-            counter: 0,
-            incrementor: 0,
             users:[],
             errors: [],
             apiToken: 'a2facd550b2decbff7ce3246c6277022e344d398d7229f378119ddf4a47b424d',
+            apiURL: 'https://gorest.co.in/public/v1/users/',
 
-            filterName: '',
             filterGender: '',
             filterStatus: '',
             toggleModal: false,
             toggleModalCreate: false,
             toggleModalEdit: false,
-            buttonVisible: 0,
 
-            modalTitle: '',
+            meta: '',
+            page: 1,
+            lastPage: '',
+
+
+
             userID: '',
             userName:'',
             userEmail:'',
@@ -396,20 +386,9 @@ export default {
                 gender:'',
                 status:'',
             },
-
-              // errors: new Errors(),
-
-
-               meta: '',
-               page: 1,
-               lastPage: ''
-
-          //  perPage: this.perPageOptions[0],
-
-
-
         };
     },
+
     computed:{
         filterUser: function(){
             return this.users.filter((user)=>{
@@ -425,16 +404,18 @@ export default {
             });
         },
 
-        increment: function() {
-              return this.incrementCounter(this.counter);
-        },
     },
+
+     mounted: function(){
+        this.getData();
+        this.getMeta();
+    },
+
     methods: {
         getData(){
             axios.get('https://gorest.co.in/public/v1/users?page='+this.page).then((response)=>{
                 this.users=response.data.data;
                 console.warn( this.users.data);
-
                 })
             },
 
@@ -472,7 +453,6 @@ export default {
                  this.getData();
             },
         readUser(user){
-            this.modalTitle = "View User Details";
             this.userID = user.id;
             this.userName = user.name;
             this.userEmail = user.email;
@@ -480,18 +460,14 @@ export default {
             this.userStatus = user.status;
         },
         createUser(){
-            this.modalTitle = "Create New User";
-            this.userID = 0;
-
             const config = {
             headers: { Authorization: 'Bearer '+ this.apiToken}
             };
 
-             axios.post('https://gorest.co.in/public/v1/users',
+             axios.post(this.apiURL,
                 this.form,
                 config
                 ).then(() =>{
-                    console.log('saved');
                     this.toggleModalCreate=false;
                     this.getData();
                     alert("Insert Successful");
@@ -499,38 +475,11 @@ export default {
                     this.form.email='';
                     this.form.gender='';
                     this.form.status='';
-                    this.form.gender='';
-            })  .catch(error => {
-                    if (error.response) {
-                    console.log(error.response.data.data);
-                    //this.errors.record(error.response.data.data)
-                    this.errors=error.response.data.data;
-                    }});
+                    this.errors = [];
+            }).catch(error =>this.errors=error.response.data.data);
 
-            //.catch(error => this.errors.record(error.response.data.data));
-//             .catch(function (error) {
-//                 if (error.response) {
-//                 // The request was made and the server responded with a status code
-//                 // that falls out of the range of 2xx
-//                 console.log(error.response.data.data);
-//                 this.errors.record(error.response.data.data)
-//     }
-//   });
-
-            // .catch(error => this.errors.record(error.response.data));
-
-            //
-            // .catch(error => {
-            //         if (error.response) {
-            //         console.log(error.response);
-            //         });
-
-
-
-//   });
         },
         clickEdit(user){
-            this.modalTitle = "Edit User";
             this.formEdit.id = user.id;
             this.formEdit.name = user.name;
             this.formEdit.email = user.email;
@@ -539,17 +488,17 @@ export default {
         },
         editUser(){
             const config = {
-            headers: { Authorization: 'Bearer '+ this.apiToken}
+                headers: { Authorization: 'Bearer '+ this.apiToken}
             };
-            axios.patch('https://gorest.co.in/public/v1/users/'+ this.formEdit.id,
+            axios.patch(this.apiURL + this.formEdit.id,
                 this.formEdit,
                 config
                 ).then(() =>{
-                    console.log('update');
                     this.toggleModalEdit=false;
+                    this.errors = [];
                     this.getData();
                     alert("Update Successful");
-            }).catch(error =>this.errors.record(error.response.data.data));
+            }).catch(error =>this.errors=error.response.data.data);
         },
         deleteUser(id){
             const config = {
@@ -557,29 +506,28 @@ export default {
             };
             if(!confirm("Are you sure you would like to delete?")){
                 return;
-            } axios.delete('https://gorest.co.in/public/v1/users/'+ id,
+            } axios.delete(this.apiURL + id,
                 config
                 ).then(() =>{
-                    console.log('deleted');
                     this.getData();
                     alert("Delete Successful");
-            }).catch(error =>this.errors.record(error.response.data.data));
+            }).catch(error =>this.errors=error.response.data.data);
         },
-        closeModal(){
+
+        closeCreateModal(){
             this.errors= [];
             this.toggleModalCreate = ! this.toggleModalCreate;
+        },
+
+        closeEditModal(){
+            this.errors= [];
+            this.toggleModalEdit = ! this.toggleModalEdit;
         }
 
 
     },
 
-     mounted: function(){
-            this.getData();
-            this.getMeta();
-        //    this.pages();
-            // this.changePage();
 
-    },
 
 
 

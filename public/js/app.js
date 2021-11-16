@@ -2385,37 +2385,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// class Errors{
-//     constructor(){
-//         this.errors = {};
-//     }
-//     get(field){
-//         if(this.errors.errors[field]){
-//             return this.errors.errors[field];
-//         }
-//     }
-//     record(errors){
-//         this.errors = errors;
-//     }
-// }
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CRUD_TABLE",
   data: function data() {
     return {
-      temp: 0,
-      counter: 0,
-      incrementor: 0,
       users: [],
       errors: [],
       apiToken: 'a2facd550b2decbff7ce3246c6277022e344d398d7229f378119ddf4a47b424d',
-      filterName: '',
+      apiURL: 'https://gorest.co.in/public/v1/users/',
       filterGender: '',
       filterStatus: '',
       toggleModal: false,
       toggleModalCreate: false,
       toggleModalEdit: false,
-      buttonVisible: 0,
-      modalTitle: '',
+      meta: '',
+      page: 1,
+      lastPage: '',
       userID: '',
       userName: '',
       userEmail: '',
@@ -2433,12 +2420,7 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         gender: '',
         status: ''
-      },
-      // errors: new Errors(),
-      meta: '',
-      page: 1,
-      lastPage: '' //  perPage: this.perPageOptions[0],
-
+      }
     };
   },
   computed: {
@@ -2455,10 +2437,11 @@ __webpack_require__.r(__webpack_exports__);
           return user;
         } else if (_this.filterGender == "" && user.status == _this.filterStatus) return user;
       });
-    },
-    increment: function increment() {
-      return this.incrementCounter(this.counter);
     }
+  },
+  mounted: function mounted() {
+    this.getData();
+    this.getMeta();
   },
   methods: {
     getData: function getData() {
@@ -2501,7 +2484,6 @@ __webpack_require__.r(__webpack_exports__);
       this.getData();
     },
     readUser: function readUser(user) {
-      this.modalTitle = "View User Details";
       this.userID = user.id;
       this.userName = user.name;
       this.userEmail = user.email;
@@ -2511,15 +2493,12 @@ __webpack_require__.r(__webpack_exports__);
     createUser: function createUser() {
       var _this4 = this;
 
-      this.modalTitle = "Create New User";
-      this.userID = 0;
       var config = {
         headers: {
           Authorization: 'Bearer ' + this.apiToken
         }
       };
-      axios.post('https://gorest.co.in/public/v1/users', this.form, config).then(function () {
-        console.log('saved');
+      axios.post(this.apiURL, this.form, config).then(function () {
         _this4.toggleModalCreate = false;
 
         _this4.getData();
@@ -2529,32 +2508,12 @@ __webpack_require__.r(__webpack_exports__);
         _this4.form.email = '';
         _this4.form.gender = '';
         _this4.form.status = '';
-        _this4.form.gender = '';
+        _this4.errors = [];
       })["catch"](function (error) {
-        if (error.response) {
-          console.log(error.response.data.data); //this.errors.record(error.response.data.data)
-
-          _this4.errors = error.response.data.data;
-        }
-      }); //.catch(error => this.errors.record(error.response.data.data));
-      //             .catch(function (error) {
-      //                 if (error.response) {
-      //                 // The request was made and the server responded with a status code
-      //                 // that falls out of the range of 2xx
-      //                 console.log(error.response.data.data);
-      //                 this.errors.record(error.response.data.data)
-      //     }
-      //   });
-      // .catch(error => this.errors.record(error.response.data));
-      //
-      // .catch(error => {
-      //         if (error.response) {
-      //         console.log(error.response);
-      //         });
-      //   });
+        return _this4.errors = error.response.data.data;
+      });
     },
     clickEdit: function clickEdit(user) {
-      this.modalTitle = "Edit User";
       this.formEdit.id = user.id;
       this.formEdit.name = user.name;
       this.formEdit.email = user.email;
@@ -2569,15 +2528,15 @@ __webpack_require__.r(__webpack_exports__);
           Authorization: 'Bearer ' + this.apiToken
         }
       };
-      axios.patch('https://gorest.co.in/public/v1/users/' + this.formEdit.id, this.formEdit, config).then(function () {
-        console.log('update');
+      axios.patch(this.apiURL + this.formEdit.id, this.formEdit, config).then(function () {
         _this5.toggleModalEdit = false;
+        _this5.errors = [];
 
         _this5.getData();
 
         alert("Update Successful");
       })["catch"](function (error) {
-        return _this5.errors.record(error.response.data.data);
+        return _this5.errors = error.response.data.data;
       });
     },
     deleteUser: function deleteUser(id) {
@@ -2593,25 +2552,22 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      axios["delete"]('https://gorest.co.in/public/v1/users/' + id, config).then(function () {
-        console.log('deleted');
-
+      axios["delete"](this.apiURL + id, config).then(function () {
         _this6.getData();
 
         alert("Delete Successful");
       })["catch"](function (error) {
-        return _this6.errors.record(error.response.data.data);
+        return _this6.errors = error.response.data.data;
       });
     },
-    closeModal: function closeModal() {
+    closeCreateModal: function closeCreateModal() {
       this.errors = [];
       this.toggleModalCreate = !this.toggleModalCreate;
+    },
+    closeEditModal: function closeEditModal() {
+      this.errors = [];
+      this.toggleModalEdit = !this.toggleModalEdit;
     }
-  },
-  mounted: function mounted() {
-    this.getData();
-    this.getMeta(); //    this.pages();
-    // this.changePage();
   }
 });
 
@@ -20601,8 +20557,7 @@ var render = function() {
                   _c(
                     "p",
                     {
-                      staticClass: "text-base text-dark-600 dark:text-gray-400",
-                      attrs: { id: "page-view" }
+                      staticClass: "text-base text-dark-600 dark:text-gray-400"
                     },
                     [
                       _vm._v(
@@ -20735,7 +20690,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Last")]
+                          [_vm._v(_vm._s(_vm.meta.pagination.pages))]
                         ),
                         _vm._v(" "),
                         _c("button", {
@@ -21253,7 +21208,7 @@ var render = function() {
                           },
                           [
                             _c("h3", { staticClass: "font-semibold text-lg" }, [
-                              _vm._v(_vm._s(_vm.modalTitle))
+                              _vm._v("View User Details")
                             ]),
                             _vm._v(" "),
                             _c(
@@ -21316,7 +21271,10 @@ var render = function() {
                                               }
                                             ],
                                             staticClass: "font-medium",
-                                            attrs: { type: "text" },
+                                            attrs: {
+                                              type: "text",
+                                              readonly: ""
+                                            },
                                             domProps: { value: _vm.userID },
                                             on: {
                                               input: function($event) {
@@ -21371,7 +21329,10 @@ var render = function() {
                                               }
                                             ],
                                             staticClass: "font-medium",
-                                            attrs: { type: "text" },
+                                            attrs: {
+                                              type: "text",
+                                              readonly: ""
+                                            },
                                             domProps: { value: _vm.userName },
                                             on: {
                                               input: function($event) {
@@ -21427,7 +21388,10 @@ var render = function() {
                                               }
                                             ],
                                             staticClass: "font-medium",
-                                            attrs: { type: "email" },
+                                            attrs: {
+                                              type: "email",
+                                              readonly: ""
+                                            },
                                             domProps: { value: _vm.userEmail },
                                             on: {
                                               input: function($event) {
@@ -21483,7 +21447,10 @@ var render = function() {
                                               }
                                             ],
                                             staticClass: "font-medium",
-                                            attrs: { type: "text" },
+                                            attrs: {
+                                              type: "text",
+                                              readonly: ""
+                                            },
                                             domProps: { value: _vm.userGender },
                                             on: {
                                               input: function($event) {
@@ -21539,7 +21506,10 @@ var render = function() {
                                               }
                                             ],
                                             staticClass: "font-medium",
-                                            attrs: { type: "text" },
+                                            attrs: {
+                                              type: "text",
+                                              readonly: ""
+                                            },
                                             domProps: { value: _vm.userStatus },
                                             on: {
                                               input: function($event) {
@@ -21572,23 +21542,14 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal",
+                                  "bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white mr-1 close-modal",
                                 on: {
                                   click: function($event) {
                                     _vm.toggleModal = false
                                   }
                                 }
                               },
-                              [_vm._v("Cancel")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
-                              },
-                              [_vm._v("Oke")]
+                              [_vm._v("Okay")]
                             )
                           ]
                         )
@@ -21621,14 +21582,14 @@ var render = function() {
                           },
                           [
                             _c("h3", { staticClass: "font-semibold text-lg" }, [
-                              _vm._v(_vm._s(_vm.modalTitle))
+                              _vm._v("Create New User")
                             ]),
                             _vm._v(" "),
                             _c(
                               "button",
                               {
                                 staticClass: "text-black ",
-                                on: { click: _vm.closeModal }
+                                on: { click: _vm.closeCreateModal }
                               },
                               [_vm._v("✗")]
                             )
@@ -21652,8 +21613,7 @@ var render = function() {
                                     { staticClass: "flex text-red-500" },
                                     [
                                       _vm._v(
-                                        "    " +
-                                          _vm._s(error.field) +
+                                        _vm._s(error.field) +
                                           " " +
                                           _vm._s(error.message)
                                       )
@@ -22039,11 +21999,7 @@ var render = function() {
                               {
                                 staticClass:
                                   "bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal",
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleModalCreate = false
-                                  }
-                                }
+                                on: { click: _vm.closeCreateModal }
                               },
                               [_vm._v("Cancel")]
                             ),
@@ -22094,406 +22050,410 @@ var render = function() {
                           },
                           [
                             _c("h3", { staticClass: "font-semibold text-lg" }, [
-                              _vm._v(_vm._s(_vm.modalTitle))
+                              _vm._v("Edit User Details")
                             ]),
                             _vm._v(" "),
                             _c(
                               "button",
                               {
                                 staticClass: "text-black ",
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleModalEdit = false
-                                  }
-                                }
+                                on: { click: _vm.closeEditModal }
                               },
                               [_vm._v("✗")]
                             )
                           ]
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "p-3" }, [
-                          _c(
-                            "table",
-                            {
-                              staticClass:
-                                "min-w-full px-3 py-3 bg-white dark:bg-gray-800"
-                            },
-                            [
-                              _c(
-                                "tr",
+                        _c(
+                          "div",
+                          { staticClass: "p-3" },
+                          [
+                            _vm._l(_vm.errors, function(error) {
+                              return _c(
+                                "div",
                                 {
-                                  staticClass:
-                                    "border-b border-gray-200 hover:bg-gray-100"
+                                  key: error.id,
+                                  staticClass: "bg-red-100 flex items-center"
                                 },
                                 [
                                   _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
-                                    },
-                                    [_vm._v("Name: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-6 text-left whitespace-nowrap"
-                                    },
+                                    "span",
+                                    { staticClass: "flex text-red-500" },
                                     [
-                                      _c(
-                                        "div",
-                                        { staticClass: "flex items-center" },
-                                        [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.name,
-                                                expression: "formEdit.name"
-                                              }
-                                            ],
-                                            staticClass: "font-medium px-5",
-                                            attrs: {
-                                              type: "text",
-                                              name: "name"
-                                            },
-                                            domProps: {
-                                              value: _vm.formEdit.name
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  _vm.formEdit,
-                                                  "name",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "flex text-red-500"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(_vm.errors.get("name"))
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "tr",
-                                {
-                                  staticClass:
-                                    "border-b border-gray-200 hover:bg-gray-100"
-                                },
-                                [
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
-                                    },
-                                    [_vm._v("Email: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-6 text-left whitespace-nowrap"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "flex items-center" },
-                                        [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.email,
-                                                expression: "formEdit.email"
-                                              }
-                                            ],
-                                            staticClass: "font-medium",
-                                            attrs: {
-                                              type: "email",
-                                              name: "email"
-                                            },
-                                            domProps: {
-                                              value: _vm.formEdit.email
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  _vm.formEdit,
-                                                  "email",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "flex text-red-500"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(_vm.errors.get("email"))
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "tr",
-                                {
-                                  staticClass:
-                                    "border-b border-gray-200 hover:bg-gray-100"
-                                },
-                                [
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
-                                    },
-                                    [_vm._v("Gender: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-6 text-left whitespace-nowrap"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "flex items-center" },
-                                        [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.gender,
-                                                expression: "formEdit.gender"
-                                              }
-                                            ],
-                                            staticClass: "font-medium",
-                                            attrs: {
-                                              type: "radio",
-                                              name: "gender",
-                                              value: "male",
-                                              checked: ""
-                                            },
-                                            domProps: {
-                                              checked: _vm._q(
-                                                _vm.formEdit.gender,
-                                                "male"
-                                              )
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                return _vm.$set(
-                                                  _vm.formEdit,
-                                                  "gender",
-                                                  "male"
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            { staticClass: "px-3 " },
-                                            [_vm._v("male")]
-                                          ),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.gender,
-                                                expression: "formEdit.gender"
-                                              }
-                                            ],
-                                            staticClass: "font-medium",
-                                            attrs: {
-                                              type: "radio",
-                                              name: "gender",
-                                              value: "female"
-                                            },
-                                            domProps: {
-                                              checked: _vm._q(
-                                                _vm.formEdit.gender,
-                                                "female"
-                                              )
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                return _vm.$set(
-                                                  _vm.formEdit,
-                                                  "gender",
-                                                  "female"
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("label", { staticClass: "px-3" }, [
-                                            _vm._v("female")
-                                          ]),
-                                          _c("br")
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "tr",
-                                {
-                                  staticClass:
-                                    "border-b border-gray-200 hover:bg-gray-100"
-                                },
-                                [
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
-                                    },
-                                    [_vm._v("Status: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass:
-                                        "py-3 px-6 text-left whitespace-nowrap"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "flex items-center" },
-                                        [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.status,
-                                                expression: "formEdit.status"
-                                              }
-                                            ],
-                                            staticClass: "font-medium",
-                                            attrs: {
-                                              type: "radio",
-                                              name: "status",
-                                              value: "active",
-                                              checked: ""
-                                            },
-                                            domProps: {
-                                              checked: _vm._q(
-                                                _vm.formEdit.status,
-                                                "active"
-                                              )
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                return _vm.$set(
-                                                  _vm.formEdit,
-                                                  "status",
-                                                  "active"
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            { staticClass: "px-3 " },
-                                            [_vm._v("active")]
-                                          ),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.formEdit.status,
-                                                expression: "formEdit.status"
-                                              }
-                                            ],
-                                            staticClass: "font-medium",
-                                            attrs: {
-                                              type: "radio",
-                                              name: "status",
-                                              value: "inactive"
-                                            },
-                                            domProps: {
-                                              checked: _vm._q(
-                                                _vm.formEdit.status,
-                                                "inactive"
-                                              )
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                return _vm.$set(
-                                                  _vm.formEdit,
-                                                  "status",
-                                                  "inactive"
-                                                )
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("label", { staticClass: "px-3" }, [
-                                            _vm._v("inactive")
-                                          ]),
-                                          _c("br")
-                                        ]
+                                      _vm._v(
+                                        _vm._s(error.field) +
+                                          " " +
+                                          _vm._s(error.message)
                                       )
                                     ]
                                   )
                                 ]
                               )
-                            ]
-                          )
-                        ]),
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "table",
+                              {
+                                staticClass:
+                                  "min-w-full px-3 py-3 bg-white dark:bg-gray-800"
+                              },
+                              [
+                                _c(
+                                  "tr",
+                                  {
+                                    staticClass:
+                                      "border-b border-gray-200 hover:bg-gray-100"
+                                  },
+                                  [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
+                                      },
+                                      [_vm._v("Name: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-6 text-left whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.name,
+                                                  expression: "formEdit.name"
+                                                }
+                                              ],
+                                              staticClass: "font-medium px-5",
+                                              attrs: {
+                                                type: "text",
+                                                name: "name"
+                                              },
+                                              domProps: {
+                                                value: _vm.formEdit.name
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.formEdit,
+                                                    "name",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "tr",
+                                  {
+                                    staticClass:
+                                      "border-b border-gray-200 hover:bg-gray-100"
+                                  },
+                                  [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
+                                      },
+                                      [_vm._v("Email: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-6 text-left whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.email,
+                                                  expression: "formEdit.email"
+                                                }
+                                              ],
+                                              staticClass: "font-medium",
+                                              attrs: {
+                                                type: "email",
+                                                name: "email"
+                                              },
+                                              domProps: {
+                                                value: _vm.formEdit.email
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.formEdit,
+                                                    "email",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "tr",
+                                  {
+                                    staticClass:
+                                      "border-b border-gray-200 hover:bg-gray-100"
+                                  },
+                                  [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
+                                      },
+                                      [_vm._v("Gender: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-6 text-left whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.gender,
+                                                  expression: "formEdit.gender"
+                                                }
+                                              ],
+                                              staticClass: "font-medium",
+                                              attrs: {
+                                                type: "radio",
+                                                name: "gender",
+                                                value: "male",
+                                                checked: ""
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.formEdit.gender,
+                                                  "male"
+                                                )
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.$set(
+                                                    _vm.formEdit,
+                                                    "gender",
+                                                    "male"
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              { staticClass: "px-3 " },
+                                              [_vm._v("male")]
+                                            ),
+                                            _c("br"),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.gender,
+                                                  expression: "formEdit.gender"
+                                                }
+                                              ],
+                                              staticClass: "font-medium",
+                                              attrs: {
+                                                type: "radio",
+                                                name: "gender",
+                                                value: "female"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.formEdit.gender,
+                                                  "female"
+                                                )
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.$set(
+                                                    _vm.formEdit,
+                                                    "gender",
+                                                    "female"
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              { staticClass: "px-3" },
+                                              [_vm._v("female")]
+                                            ),
+                                            _c("br")
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "tr",
+                                  {
+                                    staticClass:
+                                      "border-b border-gray-200 hover:bg-gray-100"
+                                  },
+                                  [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal"
+                                      },
+                                      [_vm._v("Status: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass:
+                                          "py-3 px-6 text-left whitespace-nowrap"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "flex items-center" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.status,
+                                                  expression: "formEdit.status"
+                                                }
+                                              ],
+                                              staticClass: "font-medium",
+                                              attrs: {
+                                                type: "radio",
+                                                name: "status",
+                                                value: "active",
+                                                checked: ""
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.formEdit.status,
+                                                  "active"
+                                                )
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.$set(
+                                                    _vm.formEdit,
+                                                    "status",
+                                                    "active"
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              { staticClass: "px-3 " },
+                                              [_vm._v("active")]
+                                            ),
+                                            _c("br"),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.formEdit.status,
+                                                  expression: "formEdit.status"
+                                                }
+                                              ],
+                                              staticClass: "font-medium",
+                                              attrs: {
+                                                type: "radio",
+                                                name: "status",
+                                                value: "inactive"
+                                              },
+                                              domProps: {
+                                                checked: _vm._q(
+                                                  _vm.formEdit.status,
+                                                  "inactive"
+                                                )
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.$set(
+                                                    _vm.formEdit,
+                                                    "status",
+                                                    "inactive"
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              { staticClass: "px-3" },
+                                              [_vm._v("inactive")]
+                                            ),
+                                            _c("br")
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          2
+                        ),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -22507,11 +22467,7 @@ var render = function() {
                               {
                                 staticClass:
                                   "bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal",
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleModalEdit = false
-                                  }
-                                }
+                                on: { click: _vm.closeEditModal }
                               },
                               [_vm._v("Cancel")]
                             ),
