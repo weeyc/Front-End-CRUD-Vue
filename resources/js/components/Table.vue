@@ -3,36 +3,36 @@
         <!-- change background here top table -->
         <div class="mx-auto container bg-white-500 dark:bg-gray-800 dark:bg-gray-800 shadow rounded">
             <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
-                <div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
+                <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center">
                     <div class="flex items-center ">
                         <span>MANAGE USERS</span>
                     </div>
                 </div>
-                  <div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
+                  <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center">
                     <div class="flex items-center">
                           <p class="text-base text-dark-600 dark:text-gray-400" >  Showing Page {{ page }} of {{ meta.pagination.pages }}</p>
                     </div>
                 </div>
-                <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
+                <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center justify-end">
 
                 <div class="flex flex-col items-center my-12">
                     <div class="flex text-gray-700">
-                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
+                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointe  shadow-lg">
                             <button  @click="previousPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
                                 <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
                              </button>
                         </div>
 
-                        <div class="flex h-8 font-medium rounded-full bg-gray-200">
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  " @click="firstPg()">1</button>
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled ">...</button>
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white " @click="currentPg()">{{ page }}</button>
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled">...</button>
-                            <button class="w-8 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">{{ meta.pagination.pages }}</button>
-                            <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white"></button>
+                        <div class="flex h-8 font-medium rounded-full bg-gray-200  shadow-lg">
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  " @click="firstPg()">1</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled ">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white " @click="currentPg()">{{ page }}</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">{{ meta.pagination.pages }}</button>
+                            <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white">{{ page }}</button>
                         </div>
-                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer">
+                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer  shadow-lg">
                               <button  @click="nextPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
@@ -40,22 +40,24 @@
                         </div>
                     </div>
                 </div>
+                </div>
 
-                    <div class="flex items-center lg:border-r border-gray-300 pb-3 lg:pb-0 lg:px-6">
+
+                <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center lg:ml-20 ">
                         <div class="relative w-32 z-10">
-                            <div class="pointer-events-none mt-5 text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute mt-3 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-                            <select  v-model="filterGender" class="focus:outline-none border  border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
+                            <select  v-model="filterGender" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
 
                             </select>
-                            <div class="pointer-events-none text-gray-600 dark:text-gray-400  absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none text-gray-600 dark:text-gray-400  absolute mt-12 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
@@ -68,15 +70,14 @@
                             </select>
                         </div>
 
+
                     </div>
-
-
-                    <div class="lg:ml-6 flex  items-center">
+                    <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center ">
                         <button @click="createUser; toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-gray-300 rounded
                         text-indigo-700 px-5 h-8 shadow-lg ">Create User</button>
 
                     </div>
-                </div>
+
             </div>
             <div class="w-full overflow-x-scroll xl:overflow-x-hidden">
                 <!-- change body from bg-dark-600 to bg-gray-200 -->
@@ -145,7 +146,7 @@
                 </table>
 
 <!-- Read User -->
- <div v-if="toggleModal" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+ <div v-if="toggleModal" class="modal h-screen w-full fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50" >
     <!-- modal -->
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
@@ -206,7 +207,7 @@
 </div>
 
 <!--  Create User Modal -->
- <div v-if="toggleModalCreate" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+ <div v-if="toggleModalCreate" class="modal h-screen w-full  fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50">
     <!-- modal -->
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
@@ -219,13 +220,12 @@
             <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
                 <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
             </div>
-           <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
+           <table class=" md:w-2/3 px-3 py-3 bg-white dark:bg-gray-800">
                     <tr  class="border-b border-gray-200 hover:bg-gray-100" >
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                             <input type="text" name="name" class="font-medium px-5" v-model="form.name"/>
-
+                             <input type="text" name="name" class="font-medium " v-model="form.name"/>
                         </div>
                     </td>
                 </tr>
@@ -270,7 +270,7 @@
 </div>
 
 <!--  Edit User Modal -->
- <div v-if="toggleModalEdit" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+ <div v-if="toggleModalEdit" class="modal h-screen w-full fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50">
     <!-- modal -->
     <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
       <!-- modal header -->
@@ -289,7 +289,7 @@
                     <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
-                             <input type="text" name="name" class="font-medium px-5" v-model="formEdit.name"/>
+                             <input type="text" name="name" class="font-medium" v-model="formEdit.name"/>
                         </div>
                     </td>
                 </tr>
