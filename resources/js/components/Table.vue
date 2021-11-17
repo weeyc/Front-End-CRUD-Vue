@@ -73,7 +73,7 @@
 
                     </div>
                     <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center ">
-                        <button @click="createUser; toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-gray-300 rounded
+                        <button @click="toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-gray-300 rounded
                         text-indigo-700 px-5 h-8 shadow-lg ">Create User</button>
 
                     </div>
@@ -116,7 +116,7 @@
                                       <span>{{ user.gender }}</span>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <span v-if="user.status==='active'" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ user.status }}</span>
+                                    <span v-if="user.status==='active'" class="bg-green-200 text-green-600 py-1 px-5 rounded-full text-xs">{{ user.status }}</span>
                                     <span v-if="user.status==='inactive'" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">{{ user.status }}</span>
                                 </td>
                                 <td class="py-3 px-6 text-center">
@@ -145,129 +145,9 @@
                         </tbody>
                 </table>
 
-<!-- Read User -->
- <div v-if="toggleModal" class="modal h-screen w-full fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50" >
-    <!-- modal -->
-    <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
-      <!-- modal header -->
-      <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">View User Details</h3>
-        <button class="text-black " @click="toggleModal=false">&cross;</button>
-      </div>
-      <!-- modal body -->
-      <div class="p-3">
-           <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
-                <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal ">ID: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="text" class="font-medium" v-model="userID" readonly/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                             <input type="text" class="font-medium" v-model="userName" readonly/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Email: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="email" class="font-medium" v-model="userEmail" readonly/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Gender: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="text" class="font-medium" v-model="userGender" readonly/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Status: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                             <input type="text" class="font-medium"  v-model="userStatus" readonly/>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-      </div>
-      <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="toggleModal=false" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white mr-1 close-modal">Okay</button>
 
-      </div>
-    </div>
-</div>
 
-<!--  Create User Modal -->
- <div v-if="toggleModalCreate" class="modal h-screen w-full  fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50">
-    <!-- modal -->
-    <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
-      <!-- modal header -->
-      <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">Create New User</h3>
-        <button class="text-black " @click="closeCreateModal">&cross;</button>
-      </div>
-      <!-- modal body -->
-      <div class="p-3">
-            <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
-                <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
-            </div>
-           <table class=" md:w-2/3 px-3 py-3 bg-white dark:bg-gray-800">
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                             <input type="text" name="name" class="font-medium " v-model="form.name"/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Email: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="email" name="email" class="font-medium" v-model="form.email"/>
 
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Gender: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="radio" class="font-medium" name="gender"  value="male" v-model="form.gender" checked>
-                            <label class="px-3 ">male</label><br>
-                            <input type="radio" class="font-medium" name="gender" value="female" v-model="form.gender">
-                            <label class="px-3" >female</label><br>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Status: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="radio" class="font-medium" name="status"  value="active" v-model="form.status" checked>
-                            <label class="px-3 ">active</label><br>
-                            <input type="radio" class="font-medium" name="status" value="inactive" v-model="form.status">
-                            <label class="px-3" >inactive</label><br>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-      </div>
-      <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="closeCreateModal" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
-        <button @click.prevent="createUser" type="submit" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white">Create</button>
-      </div>
-    </div>
-</div>
 
 <!--  Edit User Modal -->
  <div v-if="toggleModalEdit" class="modal h-screen w-full fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50">
@@ -336,6 +216,24 @@
             </div>
         </div>
 
+
+        <ReadModal
+            v-if="toggleModal"
+            :form="readForm"
+            :toggle="toggleModal"
+            @closeModal="closeReadModal($event)">
+        </ReadModal>
+
+        <CreateModal
+            v-if="toggleModalCreate"
+            :toggle="toggleModalCreate"
+            @refreshData="getData"
+            @closeModal="closeCreateModal($event)"
+           >
+        </CreateModal>
+
+
+
     </div>
 
 
@@ -343,14 +241,21 @@
 
 <script>
 
+import ReadModal from './Read_Modal.vue';
+import Bar from './Bar.vue';
+import CreateModal from './Create_Modal.vue';
 
 export default {
     name: "CRUD_TABLE",
+    components: {
+        Bar,
+        ReadModal,
+        CreateModal,
+    },
 
     data() {
         return {
             users:[],
-            errors: [],
             apiToken: 'a2facd550b2decbff7ce3246c6277022e344d398d7229f378119ddf4a47b424d',
             apiURL: 'https://gorest.co.in/public/v1/users/',
 
@@ -364,19 +269,12 @@ export default {
             page: 1,
             lastPage: '',
 
-
-
-            userID: '',
-            userName:'',
-            userEmail:'',
-            userGender:'',
-            userStatus:'',
-
-             form:{
-                name:'',
-                email:'',
-                gender:'male',
-                status:'active',
+            readForm:{
+                userID: '',
+                userName:'',
+                userEmail:'',
+                userGender:'',
+                userStatus:'',
             },
 
             formEdit:{
@@ -409,6 +307,9 @@ export default {
      mounted: function(){
         this.getData();
         this.getMeta();
+       // this.hey();
+
+
     },
 
     methods: {
@@ -417,6 +318,9 @@ export default {
                 this.users=response.data.data;
                 console.warn( this.users.data);
                 })
+            },
+        hey(){
+          alert("hey");
             },
 
         getMeta(){
@@ -453,32 +357,13 @@ export default {
                  this.getData();
             },
         readUser(user){
-            this.userID = user.id;
-            this.userName = user.name;
-            this.userEmail = user.email;
-            this.userGender = user.gender;
-            this.userStatus = user.status;
+            this.readForm.userID = user.id;
+            this.readForm.userName = user.name;
+            this.readForm.userEmail = user.email;
+            this.readForm.userGender = user.gender;
+            this.readForm.userStatus = user.status;
         },
-        createUser(){
-            const config = {
-            headers: { Authorization: 'Bearer '+ this.apiToken}
-            };
 
-             axios.post(this.apiURL,
-                this.form,
-                config
-                ).then(() =>{
-                    this.toggleModalCreate=false;
-                    this.getData();
-                    alert("Insert Successful");
-                    this.form.name='';
-                    this.form.email='';
-                    this.form.gender='';
-                    this.form.status='';
-                    this.errors = [];
-            }).catch(error =>this.errors=error.response.data.data);
-
-        },
         clickEdit(user){
             this.formEdit.id = user.id;
             this.formEdit.name = user.name;
@@ -514,14 +399,16 @@ export default {
             }).catch(error =>this.errors=error.response.data.data);
         },
 
-        closeCreateModal(){
-            this.errors= [];
-            this.toggleModalCreate = ! this.toggleModalCreate;
+        closeCreateModal(toggle){
+            this.toggleModalCreate = toggle;
         },
 
         closeEditModal(){
-            this.errors= [];
+
             this.toggleModalEdit = ! this.toggleModalEdit;
+        },
+        closeReadModal(toggle){
+            this.toggleModal = toggle;
         }
 
 
