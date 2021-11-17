@@ -66,7 +66,6 @@ export default {
     props: {
         form: Object,
         readForm: Function,
-        toggle: Boolean
     },
     data() {
         return {
@@ -74,11 +73,10 @@ export default {
         }
     },
     methods: {
+        closeModal(){
+          this.$emit('closeModal');
+        },
 
-         closeModal(){
-            this.toggle =! this.toggle;
-            this.$emit('closeModal',this.toggle);
-         },
 
 
 

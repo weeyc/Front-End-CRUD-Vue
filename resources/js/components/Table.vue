@@ -1,38 +1,38 @@
 <template>
-    <div class="w-full bg-gray-500 py-10">
+    <div class="w-full py-10 bg-no-repeat bg-cover" style="background-image: url(/images/BlueCoral.jpg);">
         <!-- change background here top table -->
-        <div class="mx-auto container bg-white-500 dark:bg-gray-800 dark:bg-gray-800 shadow rounded">
-            <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
+        <div class="mx-auto container bg-white-500 dark:bg-gray-800 dark:bg-gray-800 shadow rounded " >
+            <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full  shadow-inner" style="background-image: url(/images/BlueCoral.jpg);">
                 <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center">
                     <div class="flex items-center ">
-                        <span>MANAGE USERS</span>
+                        <span class="text-xl font-black">MANAGE USERS</span>
                     </div>
                 </div>
-                  <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center">
+                  <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center ">
                     <div class="flex items-center">
-                          <p class="text-base text-dark-600 dark:text-gray-400" >  Showing Page {{ page }} of {{ meta.pagination.pages }}</p>
+                          <p class="font-medium text-dark-600 dark:text-gray-400" >  Showing Page {{ page }} of {{ lastPage }}</p>
                     </div>
                 </div>
                 <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center justify-end">
 
                 <div class="flex flex-col items-center my-12">
                     <div class="flex text-gray-700">
-                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointe  shadow-lg">
+                        <div class="h-8 w-8 mr-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointe  shadow-lg hover:bg-blue-200">
                             <button  @click="previousPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
                                 <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
                              </button>
                         </div>
 
-                        <div class="flex h-8 font-medium rounded-full bg-gray-200  shadow-lg">
-                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  " @click="firstPg()">1</button>
-                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full disabled ">...</button>
-                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-pink-600 text-white " @click="currentPg()">{{ page }}</button>
-                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled">...</button>
-                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full"  @click="lastPg()">{{ meta.pagination.pages }}</button>
-                            <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-pink-600 text-white">{{ page }}</button>
+                        <div class="flex h-8  font-medium rounded-full bg-gray-200  shadow-lg ">
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full hover:bg-blue-200 " @click="firstPg()">1</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full  disabled ">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full hover:bg-blue-700 bg-blue-600 text-white " @click="currentPg()">{{ page }}</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full   disabled">...</button>
+                            <button class="w-8 md:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in  rounded-full hover:bg-blue-200"  @click="lastPg()">{{ lastPage }}</button>
+                            <button class="w-8 h-8 md:hidden flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in rounded-full bg-blue-600 text-white hover:bg-green-200">{{ page }}</button>
                         </div>
-                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer  shadow-lg">
+                        <div class="h-8 w-8 ml-1 flex justify-center items-center rounded-full bg-gray-200 cursor-pointer  shadow-lg hover:bg-blue-200">
                               <button  @click="nextPg(page)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
 
                 <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center lg:ml-20 ">
@@ -51,7 +51,7 @@
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-                            <select  v-model="filterGender" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
+                            <select  v-model="filterGender" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -63,7 +63,7 @@
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-                             <select shadow-lg v-model="filterStatus" class="focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
+                             <select shadow-lg v-model="filterStatus" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="" >Status</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -73,17 +73,18 @@
 
                     </div>
                     <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center ">
-                        <button @click="toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-gray-300 rounded
+                        <button @click="toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-green-200 rounded
                         text-indigo-700 px-5 h-8 shadow-lg ">Create User</button>
 
                     </div>
 
             </div>
             <div class="w-full overflow-x-scroll xl:overflow-x-hidden">
-                <!-- change body from bg-dark-600 to bg-gray-200 -->
-                <table class="min-w-full bg-dark-600 dark:bg-gray-800">
+                <!-- change body from  bg-dark-600 dark:bg-gray-800 -->
+
+                <table class="min-w-full shadow-lg border-b-2 " style="background-image: url(/images/BlueCoral.jpg);">
                      <thead>
-                            <tr class="bg-dark-200 text-gray-900 uppercase text-sm leading-normal">
+                            <tr class="border-b bg-blue-400 text-gray-900 uppercase text-base leading-normal"  style="background-image: url(/images/BlueCoral.jpg);">
                                 <th class="py-3 px-3 text-left">No.</th>
                                 <th class="py-3 px-6 text-left">User ID</th>
                                 <th class="py-3 px-6 text-left">Name</th>
@@ -94,7 +95,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-dark-600 text-sm font-light">
-                            <tr  v-for= "(user, index) in filterUser" :key="user.id"   class="border-b border-gray-200 hover:bg-gray-100" >
+                            <tr  v-for= "(user, index) in filterUser" :key="user.id"   class="border-b border-gray-200 hover:bg-green-200" >
                                  <td class="py-3 px-3 text-left whitespace-nowrap">  {{ index + 1 }}</td >
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <div class="flex items-center">
@@ -113,10 +114,11 @@
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                      <span>{{ user.gender }}</span>
+                                      <span v-if="user.gender==='male'">🧑 {{ user.gender }}</span>
+                                      <span v-if="user.gender==='female'">👩‍🦰  {{ user.gender }}</span>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <span v-if="user.status==='active'" class="bg-green-200 text-green-600 py-1 px-5 rounded-full text-xs">{{ user.status }}</span>
+                                    <span v-if="user.status==='active'" class="bg-green-200 text-green-600 py-1 px-4 rounded-full text-xs">{{ user.status }}</span>
                                     <span v-if="user.status==='inactive'" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">{{ user.status }}</span>
                                 </td>
                                 <td class="py-3 px-6 text-center">
@@ -144,94 +146,32 @@
                             </tr>
                         </tbody>
                 </table>
-
-
-
-
-
-<!--  Edit User Modal -->
- <div v-if="toggleModalEdit" class="modal h-screen w-full fixed left-0 top-0 flex justify-center z-10 items-center bg-black bg-opacity-50">
-    <!-- modal -->
-    <div class="bg-white rounded shadow-lg w-10/12 md:w-1/3">
-      <!-- modal header -->
-
-      <div class="border-b px-4 py-2 flex justify-between items-center">
-        <h3 class="font-semibold text-lg">Edit User Details</h3>
-        <button class="text-black " @click="closeEditModal">&cross;</button>
-      </div>
-      <!-- modal body -->
-      <div class="p-3">
-          <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
-                <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
-            </div>
-           <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal" >Name: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                             <input type="text" name="name" class="font-medium" v-model="formEdit.name"/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Email: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="email" name="email" class="font-medium" v-model="formEdit.email"/>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Gender: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="radio" class="font-medium" name="gender"  value="male" v-model="formEdit.gender" checked>
-                            <label class="px-3 ">male</label><br>
-                            <input type="radio" class="font-medium" name="gender" value="female" v-model="formEdit.gender">
-                            <label class="px-3" >female</label><br>
-                        </div>
-                    </td>
-                </tr>
-                    <tr  class="border-b border-gray-200 hover:bg-gray-100" >
-                    <td class="py-3 px-3 bg-gray-200 text-gray-900 uppercase text-sm leading-normal">Status: </td >
-                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                        <div class="flex items-center">
-                            <input type="radio" class="font-medium" name="status"  value="active" v-model="formEdit.status" checked>
-                            <label class="px-3 ">active</label><br>
-                            <input type="radio" class="font-medium" name="status" value="inactive" v-model="formEdit.status">
-                            <label class="px-3" >inactive</label><br>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-      </div>
-      <div class="flex justify-end items-center w-100 border-t p-3">
-        <button @click="closeEditModal" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel</button>
-        <button @click.prevent="editUser" type="submit" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-white">Update</button>
-      </div>
-    </div>
-</div>
-
-
             </div>
         </div>
 
+<!-- Modal Components -->
 
         <ReadModal
             v-if="toggleModal"
             :form="readForm"
             :toggle="toggleModal"
-            @closeModal="closeReadModal($event)">
+            @closeModal="closeReadModal">
         </ReadModal>
 
         <CreateModal
             v-if="toggleModalCreate"
             :toggle="toggleModalCreate"
             @refreshData="getData"
-            @closeModal="closeCreateModal($event)"
-           >
+            @closeModal="closeCreateModal">
         </CreateModal>
 
+        <EditModal
+            v-if="toggleModalEdit"
+            :toggle="toggleModalEdit"
+            :form="formEdit"
+            @refreshData="getData"
+            @closeModal="closeEditModal">
+        </EditModal>
 
 
     </div>
@@ -244,6 +184,7 @@
 import ReadModal from './Read_Modal.vue';
 import Bar from './Bar.vue';
 import CreateModal from './Create_Modal.vue';
+import EditModal from './Edit_Modal.vue';
 
 export default {
     name: "CRUD_TABLE",
@@ -251,6 +192,8 @@ export default {
         Bar,
         ReadModal,
         CreateModal,
+        EditModal,
+       // hey
     },
 
     data() {
@@ -307,9 +250,7 @@ export default {
      mounted: function(){
         this.getData();
         this.getMeta();
-       // this.hey();
-
-
+       // hey
     },
 
     methods: {
@@ -319,10 +260,6 @@ export default {
                 console.warn( this.users.data);
                 })
             },
-        hey(){
-          alert("hey");
-            },
-
         getMeta(){
             axios.get('https://gorest.co.in/public/v1/users').then((response)=>{
                     this.meta=response.data.meta;
@@ -363,27 +300,12 @@ export default {
             this.readForm.userGender = user.gender;
             this.readForm.userStatus = user.status;
         },
-
         clickEdit(user){
             this.formEdit.id = user.id;
             this.formEdit.name = user.name;
             this.formEdit.email = user.email;
             this.formEdit.gender = user.gender;
             this.formEdit.status = user.status;
-        },
-        editUser(){
-            const config = {
-                headers: { Authorization: 'Bearer '+ this.apiToken}
-            };
-            axios.patch(this.apiURL + this.formEdit.id,
-                this.formEdit,
-                config
-                ).then(() =>{
-                    this.toggleModalEdit=false;
-                    this.errors = [];
-                    this.getData();
-                    alert("Update Successful");
-            }).catch(error =>this.errors=error.response.data.data);
         },
         deleteUser(id){
             const config = {
@@ -399,17 +321,17 @@ export default {
             }).catch(error =>this.errors=error.response.data.data);
         },
 
-        closeCreateModal(toggle){
-            this.toggleModalCreate = toggle;
+        closeCreateModal(){
+            this.toggleModalCreate =! this.toggleModalCreate;
         },
 
         closeEditModal(){
-
-            this.toggleModalEdit = ! this.toggleModalEdit;
+            this.toggleModalEdit =!  this.toggleModalEdit;
         },
-        closeReadModal(toggle){
-            this.toggleModal = toggle;
+        closeReadModal(){
+            this.toggleModal =!  this.toggleModal ;
         }
+
 
 
     },

@@ -7,7 +7,6 @@ import routes from './routes';
 
 
 Vue.component('top-bar', require('./components/Bar.vue').default);
-Vue.component('main-body', require('./components/Main.vue').default);
 Vue.component('table-body', require('./components/Table.vue').default);
 Vue.component('modal-read', require('./components/Read_Modal.vue').default);
 
