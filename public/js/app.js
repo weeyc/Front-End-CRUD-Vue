@@ -1993,7 +1993,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2256,6 +2255,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Bar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bar.vue */ "./resources/js/components/Bar.vue");
 /* harmony import */ var _Create_Modal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Create_Modal.vue */ "./resources/js/components/Create_Modal.vue");
 /* harmony import */ var _Edit_Modal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Edit_Modal.vue */ "./resources/js/components/Edit_Modal.vue");
+//
+//
+//
 //
 //
 //
@@ -20246,7 +20248,7 @@ var staticRenderFns = [
     return _c(
       "div",
       {
-        staticClass: "bg-gray-900 relative flex justify-center",
+        staticClass: "bg-gray-900 relative flex justify-center shadow-lg",
         staticStyle: { "background-image": "url(/images/Midnight1.jpg)" }
       },
       [
@@ -20742,7 +20744,9 @@ var render = function() {
                   },
                   [
                     _c("span", { staticClass: "flex text-red-500" }, [
-                      _vm._v(_vm._s(error.field) + " " + _vm._s(error.message))
+                      _vm._v(
+                        "➢ " + _vm._s(error.field) + " " + _vm._s(error.message)
+                      )
                     ])
                   ]
                 )
@@ -21576,7 +21580,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "pointer-events-none text-gray-600 dark:text-gray-400 absolute mt-3 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
+                          "pointer-events-none text-dark-800 dark:text-gray-400 absolute mt-3 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
                       },
                       [
                         _c(
@@ -21621,7 +21625,7 @@ var render = function() {
                           }
                         ],
                         staticClass:
-                          "focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent",
+                          "focus:outline-none border-transparent cursor-pointer focus:border-gray-800 hover:bg-blue-200 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent",
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -21657,7 +21661,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "pointer-events-none text-gray-600 dark:text-gray-400  absolute mt-12 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
+                          "pointer-events-none text-gray-900 dark:text-gray-400  absolute mt-12 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5"
                       },
                       [
                         _c(
@@ -21702,7 +21706,7 @@ var render = function() {
                           }
                         ],
                         staticClass:
-                          "focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent",
+                          "focus:outline-none border-transparent cursor-pointer focus:border-gray-800 hover:bg-blue-200 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent",
                         attrs: { "shadow-lg": "" },
                         on: {
                           change: function($event) {
@@ -21749,7 +21753,7 @@ var render = function() {
                     "button",
                     {
                       staticClass:
-                        "bg-gray-200   hover:bg-green-200 rounded\n                        text-indigo-700 px-5 h-8 shadow-lg ",
+                        "bg-gray-200   hover:bg-blue-200 rounded\n                        text-indigo-700 px-5 h-8 shadow-lg ",
                       on: {
                         click: function($event) {
                           _vm.toggleModalCreate = !_vm.toggleModalCreate

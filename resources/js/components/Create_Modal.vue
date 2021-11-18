@@ -27,7 +27,6 @@
                     <td class="py-3 px-6 text-left whitespace-nowrap">
                         <div class="flex items-center">
                             <input type="email" name="email" class="font-medium" v-model="form.email"/>
-
                         </div>
                     </td>
                 </tr>

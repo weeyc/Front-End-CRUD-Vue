@@ -45,25 +45,25 @@
 
                 <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center lg:ml-20 ">
                         <div class="relative w-32 z-10">
-                            <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute mt-3 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none text-dark-800 dark:text-gray-400 absolute mt-3 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-                            <select  v-model="filterGender" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
+                            <select  v-model="filterGender" class="focus:outline-none border-transparent cursor-pointer focus:border-gray-800 hover:bg-blue-200 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
 
                             </select>
-                            <div class="pointer-events-none text-gray-600 dark:text-gray-400  absolute mt-12 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
+                            <div class="pointer-events-none text-gray-900 dark:text-gray-400  absolute mt-12 inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z"></path>
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-                             <select shadow-lg v-model="filterStatus" class="focus:outline-none border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
+                             <select shadow-lg v-model="filterStatus" class="focus:outline-none border-transparent cursor-pointer focus:border-gray-800 hover:bg-blue-200 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded font-medium dark:text-gray-400 appearance-none bg-transparent">
                                 <option value="" >Status</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -73,7 +73,7 @@
 
                     </div>
                     <div class="w-full lg:w-1/5 flex flex-col lg:flex-row items-start lg:items-center ">
-                        <button @click="toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-green-200 rounded
+                        <button @click="toggleModalCreate = !toggleModalCreate" class="bg-gray-200   hover:bg-blue-200 rounded
                         text-indigo-700 px-5 h-8 shadow-lg ">Create User</button>
 
                     </div>
@@ -146,7 +146,10 @@
                             </tr>
                         </tbody>
                 </table>
+
             </div>
+
+
         </div>
 
 <!-- Modal Components -->

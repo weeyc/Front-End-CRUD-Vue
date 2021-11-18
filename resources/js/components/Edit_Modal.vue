@@ -11,7 +11,7 @@
       <!-- modal body -->
       <div class="p-3">
           <div  v-for= "error in errors" :key="error.id" class="bg-red-100 flex items-center">
-                <span class="flex text-red-500">{{error.field}} {{ error.message }}</span>
+                <span class="flex text-red-500">➢ {{error.field}} {{ error.message }}</span>
             </div>
            <table class="min-w-full px-3 py-3 bg-white dark:bg-gray-800">
                     <tr  class="border-b border-gray-200 hover:bg-gray-100" >
